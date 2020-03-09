@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+      integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+      crossorigin="anonymous"
+    />
+    <title>TODO List</title>
+  </head>
+  <body>
+    <h1 class="heading">
+      TODO List<i
+        class="fas fa-plus add-list-btn"
+        onclick="openAddListForm(event)"
+        title="Add list"
+      ></i>
+    </h1>
+    <div class="add-list-modal" hidden>
+      <form id="add-list-form">
+        <input
+          type="text"
+          name="list-name"
+          id="list-name-input"
+          class="input"
+          style="width: 180px; font-size: 1rem;"
+          minlength="3"
+          maxlength="20"
+          required
+        />
+        <input type="submit" value="Add" class="btn btn-green" />
+      </form>
+    </div>
+    <div class="container" id="list-container"></div>
+
+    <div class="modal" hidden>
+      <div class="todo-card">
+        <h2 id="modal-title">
+          Add TODO
+          <i
+            class="fas fa-pen"
+            id="modal-edit-btn"
+            style="float: right; font-size: 1.2rem; cursor: pointer;"
+          ></i>
+        </h2>
+        <form type="" id="todo-form">
+          <input
+            type="text"
+            name="todo-name"
+            id="todo-name-input"
+            placeholder="TODO Name"
+            class="input"
+            minlength="3"
+            maxlength="20"
+            required
+          />
+          <textarea
+            name="todo-desc-input"
+            id="todo-desc-input"
+            rows="3"
+            placeholder="TODO Description"
+            class="input"
+          ></textarea>
+          <input
+            id="submit-btn"
+            type="submit"
+            value="Add"
+            class="btn btn-green"
+            style="float: right; min-width: 3rem;"
+          />
+          <button type="button" class="btn btn-red" onclick="closeModal(event)">
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="utils/models.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+* {
+  transition: 0.5s;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(225, 226, 226);
+  padding: 0;
+  margin: 0;
+  /* overflow-x: hidden; */
+}
+
+.heading {
+  text-align: center;
+  background-color: #131212;
+  color: white;
+  padding: 0.7rem;
+  margin: 0;
+}
+
+.add-list-btn {
+  float: right;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.add-list-modal {
+  max-height: 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  position: fixed;
+  top: 60;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  padding: 0 0.5rem;
+}
+
+.container {
+  max-width: 90%;
+  padding: 0.5rem;
+  margin: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-around;
+}
+
+.list {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  max-width: 250px;
+  height: 400px;
+  max-height: 400px;
+  overflow: hidden;
+  box-shadow: 2px 5px 10px #888888;
+  animation: fade-in 0.5s 1 ease-out;
+}
+
+.list:hover {
+  box-shadow: 5px 10px 10px #888888;
+}
+
+.list .list-title {
+  margin: 0;
+  text-align: center;
+  background-color: #ccc;
+  padding: 0.3rem;
+}
+
+.list-title span.todo-count {
+  color: white;
+  background-color: #b90303;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  padding: 0.2rem 0.4rem;
+}
+
+.list-title small {
+  float: right;
+  visibility: hidden;
+}
+
+.list-title:hover small {
+  visibility: visible;
+}
+
+.list-title .add-todo-btn {
+  margin-right: 8px;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  cursor: pointer;
+}
+
+.list-title .edit-btn {
+  margin-right: 8px;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  cursor: pointer;
+}
+
+.list .todos {
+  padding: 0.5rem;
+  max-height: 89%;
+  overflow-y: auto;
+}
+
+.todos .todo {
+  padding: 0.5rem;
+  border: 1px solid #8b8b8b;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  animation: fade-in 1s 1 ease-out;
+}
+
+.todo:hover {
+  box-shadow: 3px 3px 8px #999898;
+}
+
+.todo.done {
+  opacity: 0.6;
+}
+
+.todo .todo-name {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 0.3rem;
+  color: #131212;
+  font-size: 0.88rem;
+}
+
+.todo small {
+  float: right;
+  visibility: hidden;
+}
+
+.todo:hover small {
+  visibility: visible;
+}
+
+.todo .description {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgb(94, 93, 93);
+  max-height: 30px;
+  overflow: hidden;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.todo-card {
+  background-color: #fff;
+  width: 300px;
+  max-width: 80vw;
+  margin: auto;
+  margin-top: 20vh;
+  padding: 1.5rem;
+  box-shadow: 5px 5px 20px #363636;
+  border-radius: 10px;
+}
+
+.todo-card #modal-title {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.list-name {
+  color: #033e8a;
+}
+
+.input {
+  width: 95%;
+  padding: 8px;
+  border: 1px solid #b9b9b9;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+#todo-name-input {
+  font-size: 1.1rem;
+}
+
+#todo-desc-input {
+  font-size: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn {
+  cursor: pointer;
+  border: 0;
+  border-radius: 3px;
+  padding: 0.5rem;
+}
+
+.btn-green {
+  background-color: #088a03;
+  color: #fff;
+}
+
+.btn-red {
+  background-color: rgb(204, 26, 26);
+  color: #fff;
+}
+
+.fas,
+.far,
+.fab {
+  margin-right: 5px;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+@media screen and (max-width: 1100px) {
+  .container {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+@media screen and (max-width: 830px) {
+  .container {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+@media screen and (max-width: 540px) {
+  .container {
+    grid-template-columns: auto;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    background-color: rgb(53, 241, 6);
+    opacity: 0;
+  }
+  100% {
+    background-color: white;
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    background-color: white;
+    opacity: 1;
+  }
+  100% {
+    background-color: rgb(253, 82, 70);
+    opacity: 0;
+  }
+}

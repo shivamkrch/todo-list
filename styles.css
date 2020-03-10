@@ -61,7 +61,7 @@ body {
 }
 
 .list:hover {
-  box-shadow: 5px 10px 10px #888888;
+  box-shadow: 8px 10px 12px #888888;
 }
 
 .list .list-title {
@@ -80,6 +80,7 @@ body {
   border-radius: 50%;
   padding: 0rem 0.4rem;
   padding-bottom: 0.1rem;
+  margin-left: 0.5rem;
 }
 
 .list-title small {
@@ -98,6 +99,13 @@ body {
   font-size: 0.9rem;
   padding: 0.2rem 0;
   cursor: pointer;
+}
+
+.title-input {
+  width: 40%;
+  padding: 3px;
+  border: 1px solid #b9b9b9;
+  border-radius: 4px;
 }
 
 .list .todos {
@@ -126,7 +134,7 @@ body {
 }
 
 .todo.done:hover {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .todo .todo-name {
@@ -145,7 +153,6 @@ body {
   margin: 0;
   font-size: 0.8rem;
   color: rgb(94, 93, 93);
-  text-align: justify;
   overflow: hidden;
 }
 
@@ -156,7 +163,6 @@ body {
   z-index: 9999;
   position: fixed;
   top: 0;
-  bottom: 0;
   right: 0;
   left: 0;
 }
@@ -165,11 +171,12 @@ body {
   background-color: #fff;
   width: 300px;
   max-width: 80vw;
-  margin: auto;
-  margin-top: 20vh;
+  max-height: 60vh;
+  margin: 10vh auto;
   padding: 1.5rem;
   box-shadow: 5px 5px 20px #363636;
   border-radius: 10px;
+  overflow: auto;
 }
 
 .todo-card #modal-title {
@@ -243,40 +250,17 @@ body {
     grid-template-columns: repeat(3, auto);
   }
 }
+
 @media screen and (max-width: 830px) {
   .container {
     grid-template-columns: repeat(2, auto);
   }
 }
+
 @media screen and (max-width: 540px) {
   .container {
     grid-template-columns: auto;
   }
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #696969;
-}
-
-::-webkit-resizer {
-  display: none;
 }
 
 @keyframes fade-in {

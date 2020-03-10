@@ -13,12 +13,12 @@ function getListDiv(list) {
   newListDiv.id = list.id;
   let listTitle = document.createElement("h4");
   listTitle.className = "list-title";
-  listTitle.innerHTML = `${list.title} <span class="todo-count">${list.todos.length}</span> <small
-  ><i class="fas fa-pen edit-btn action-button" title="Edit list title"></i
+  listTitle.innerHTML = `<span>${list.title}</span><span class="todo-count">${list.todos.length}</span> <small
+  ><i class="fas fa-pen edit-btn action-button" title="Edit list title"
+  onclick="editListTitleHandler(event)"></i
   ><i class="far fa-trash-alt cursor-pointer action-button" title="Delete list"
-  onclick="deleteList(event, '${list.id}')"></i>
-  <i class="fas fa-plus add-todo-btn action-button" title="Add todo" onclick="openModal('add', '${list.id}')"></i
-  ></small>`;
+  onclick="deleteList(event, '${list.id}')"></i><i class="fas fa-plus add-todo-btn action-button" 
+  title="Add todo" onclick="openModal('add', '${list.id}')"></i></small>`;
   let todosDiv = document.createElement("div");
   todosDiv.ondragover = e => e.preventDefault();
   todosDiv.ondrop = drop;
@@ -208,6 +208,39 @@ function drop(e) {
   fromListDiv.firstChild.children[0].textContent = fromList.todos.length;
 }
 
+function editListTitleHandler(e) {
+  e.target.style.display = "none";
+  let targetTitle = e.target.parentElement.parentElement.childNodes[0];
+  let titleForm = document.createElement("form");
+  titleForm.onsubmit = editListTitle;
+  titleForm.style.display = "inline";
+  titleForm.style.animation = "zoom-in .5s 1";
+  let titleInput = document.createElement("input");
+  titleInput.value = targetTitle.textContent;
+  titleInput.className = "title-input";
+  titleInput.autofocus = true;
+  titleInput.required = true;
+  let button = document.createElement("button");
+  button.className = "btn btn-green";
+  button.innerHTML = `<i class="fas fa-check"></i>`;
+  button.style.padding = "0.18rem";
+  button.style.textAlign = "center";
+  titleForm.append(titleInput, button);
+  targetTitle.replaceWith(titleForm);
+}
+
+function editListTitle(e) {
+  e.preventDefault();
+  let targetListId = e.target.parentElement.parentElement.id;
+  let targetList = todoList.find(list => list.id === targetListId);
+  targetList.title = e.target.elements[0].value;
+  let targetListDiv = document.getElementById(targetListId);
+  let listTitle = document.createElement("span");
+  listTitle.textContent = targetList.title;
+  targetListDiv.children[0].replaceChild(listTitle, e.target);
+  targetListDiv.firstChild.lastChild.childNodes[0].style.display = "inline";
+}
+
 window.onload = () => {
   todoList = JSON.parse(localStorage.getItem("todoList")) || [];
   for (list of todoList) {
@@ -242,5 +275,9 @@ window.onload = () => {
 };
 
 window.onunload = () => {
+  localStorage.setItem("todoList", JSON.stringify(todoList));
+};
+
+window.onblur = () => {
   localStorage.setItem("todoList", JSON.stringify(todoList));
 };

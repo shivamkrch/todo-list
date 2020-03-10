@@ -46,6 +46,9 @@ function getTodoDiv(todo, listId) {
   newTodoDiv.id = todo.id;
   newTodoDiv.draggable = true;
   newTodoDiv.ondragstart = drag;
+  newTodoDiv.ondragend = e => {
+    e.target.classList.remove("dragged");
+  };
   newTodoDiv.title = "Drag to move to another list";
   if (!todo.done) {
     newTodoDiv.title = "Click to view and edit\nDrag to move to another list";

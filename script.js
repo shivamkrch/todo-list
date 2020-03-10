@@ -11,17 +11,17 @@ function getListDiv(list) {
   let newListDiv = document.createElement("div");
   newListDiv.className = "list";
   newListDiv.id = list.id;
-  newListDiv.ondragover = e => e.preventDefault();
-  newListDiv.ondrop = drop;
   let listTitle = document.createElement("h4");
   listTitle.className = "list-title";
   listTitle.innerHTML = `${list.title} <span class="todo-count">${list.todos.length}</span> <small
-            ><i class="fas fa-pen edit-btn" title="Edit list title"></i
-            ><i class="far fa-trash-alt cursor-pointer" title="Delete list"
-            onclick="deleteList(event, '${list.id}')"></i>
-            <i class="fas fa-plus add-todo-btn" title="Add todo" onclick="openModal('add', '${list.id}')"></i
-          ></small>`;
+  ><i class="fas fa-pen edit-btn action-button" title="Edit list title"></i
+  ><i class="far fa-trash-alt cursor-pointer action-button" title="Delete list"
+  onclick="deleteList(event, '${list.id}')"></i>
+  <i class="fas fa-plus add-todo-btn action-button" title="Add todo" onclick="openModal('add', '${list.id}')"></i
+  ></small>`;
   let todosDiv = document.createElement("div");
+  todosDiv.ondragover = e => e.preventDefault();
+  todosDiv.ondrop = drop;
   todosDiv.className = "todos";
   newListDiv.append(listTitle, todosDiv);
   return newListDiv;
@@ -32,12 +32,13 @@ function getTodoDiv(todo, listId) {
   newTodoDiv.innerHTML = `<small>
             <i class="far ${
               todo.done ? "fa-thumbs-down" : "fa-thumbs-up"
-            } cursor-pointer" title="${
+            } cursor-pointer action-button" title="${
     todo.done ? "Set undone" : "Set done"
   }" onclick="updateTodoStatus(event,'${listId}','${
     todo.id
   }', ${!todo.done})"></i>
-            <i class="far fa-trash-alt cursor-pointer" title="Delete todo" onclick="deleteTodo(event,'${listId}', '${
+            <i class="far fa-trash-alt cursor-pointer action-button"
+            title="Delete todo" onclick="deleteTodo(event,'${listId}', '${
     todo.id
   }')"></i>
           </small>`;
@@ -45,18 +46,21 @@ function getTodoDiv(todo, listId) {
   newTodoDiv.id = todo.id;
   newTodoDiv.draggable = true;
   newTodoDiv.ondragstart = drag;
+  newTodoDiv.title = "Drag to move to another list";
   if (!todo.done) {
-    newTodoDiv.title = "Click to view and edit";
+    newTodoDiv.title = "Click to view and edit\nDrag to move to another list";
     newTodoDiv.onclick = openModal.bind(this, "edit", listId, todo.id);
   } else {
-    newTodoDiv.style.cursor = "not-allowed";
+    // newTodoDiv.style.cursor = "not-allowed";
   }
   let todoName = document.createElement("h4");
   todoName.className = "todo-name";
   todoName.textContent = todo.name;
   let todoDesc = document.createElement("p");
   todoDesc.className = "description";
-  todoDesc.textContent = todo.description;
+  todoDesc.textContent =
+    todo.description.substring(0, 65) +
+    (todo.description.length > 65 ? "..." : "");
   newTodoDiv.append(todoName, todoDesc);
   return newTodoDiv;
 }
@@ -105,7 +109,7 @@ function deleteTodo(e, list_id, todo_id) {
     const targetListDiv = document.getElementById(list_id);
     targetListDiv.firstChild.children[0].textContent = targetList.todos.length;
   };
-  targetTodoDiv.style.animation = "fade-out .5s 1 ease-out";
+  targetTodoDiv.style.animation = "fade-out .3s 1 ease-out";
 }
 
 function openAddListForm() {
@@ -168,7 +172,7 @@ function renderList(list) {
 }
 
 function drag(e) {
-  // console.log(e);
+  e.target.classList.add("dragged");
   e.dataTransfer.setData("fromList", e.target.parentElement.parentElement.id);
   e.dataTransfer.setData("targetTodo", e.target.id);
 }
@@ -177,6 +181,7 @@ function drop(e) {
   e.preventDefault();
   let fromList = e.dataTransfer.getData("fromList");
   let targetTodo = e.dataTransfer.getData("targetTodo");
+  document.getElementById(targetTodo).classList.remove("dragged");
   let toList, targetDiv;
   if (e.target.classList.contains("list")) {
     targetDiv = e.target.lastChild;
@@ -184,16 +189,20 @@ function drop(e) {
   } else if (e.target.classList.contains("todos")) {
     targetDiv = e.target;
     toList = e.target.parentElement.id;
-  }
+  } else return;
   if (fromList === toList) {
     return;
   }
+  let fromListDiv = document.getElementById(fromList);
   targetDiv.prepend(document.getElementById(targetTodo));
   fromList = todoList.find(list => list.id === fromList);
   toList = todoList.find(list => list.id === toList);
   targetTodo = fromList.todos.findIndex(todo => todo.id === targetTodo);
   toList.todos.unshift(fromList.todos[targetTodo]);
   fromList.todos.splice(targetTodo, 1);
+  targetDiv.parentElement.firstChild.children[0].textContent =
+    toList.todos.length;
+  fromListDiv.firstChild.children[0].textContent = fromList.todos.length;
 }
 
 window.onload = () => {

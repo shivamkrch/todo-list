@@ -82,7 +82,7 @@ function addTodo(list_id, todo) {
   targetList.todos.unshift(todo);
   const targetListDiv = document.getElementById(list_id);
   targetListDiv.lastChild.prepend(getTodoDiv(todo, list_id));
-  targetListDiv.firstChild.children[0].textContent = targetList.todos.length;
+  targetListDiv.firstChild.children[1].textContent = targetList.todos.length;
 }
 
 function updateTodo(list_id, todo_id, todoName, todoDesc) {
@@ -103,14 +103,14 @@ function updateTodoStatus(e, list_id, todo_id, status) {
 }
 
 function deleteTodo(e, list_id, todo_id) {
-  e.cancelBubble = true;
+  if (e) e.cancelBubble = true;
   let targetList = todoList.find(list => list.id === list_id);
   targetList.todos = targetList.todos.filter(todo => todo.id !== todo_id);
   const targetTodoDiv = document.getElementById(todo_id);
   targetTodoDiv.onanimationend = e => {
     e.target.remove();
     const targetListDiv = document.getElementById(list_id);
-    targetListDiv.firstChild.children[0].textContent = targetList.todos.length;
+    targetListDiv.firstChild.children[1].textContent = targetList.todos.length;
   };
   targetTodoDiv.style.animation = "fade-out .3s 1 ease-out";
 }
@@ -196,16 +196,10 @@ function drop(e) {
   if (fromList === toList) {
     return;
   }
-  let fromListDiv = document.getElementById(fromList);
-  targetDiv.prepend(document.getElementById(targetTodo));
   fromList = todoList.find(list => list.id === fromList);
-  toList = todoList.find(list => list.id === toList);
-  targetTodo = fromList.todos.findIndex(todo => todo.id === targetTodo);
-  toList.todos.unshift(fromList.todos[targetTodo]);
-  fromList.todos.splice(targetTodo, 1);
-  targetDiv.parentElement.firstChild.children[0].textContent =
-    toList.todos.length;
-  fromListDiv.firstChild.children[0].textContent = fromList.todos.length;
+  targetTodo = fromList.todos.find(todo => todo.id === targetTodo);
+  deleteTodo(null, fromList.id, targetTodo.id);
+  addTodo(toList, targetTodo);
 }
 
 function editListTitleHandler(e) {

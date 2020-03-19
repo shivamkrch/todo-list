@@ -61,9 +61,7 @@ function getTodoDiv(todo, listId) {
   todoName.textContent = todo.name;
   let todoDesc = document.createElement("p");
   todoDesc.className = "description";
-  todoDesc.textContent =
-    todo.description.substring(0, 65) +
-    (todo.description.length > 65 ? "..." : "");
+  todoDesc.textContent = todo.description;
   newTodoDiv.append(todoName, todoDesc);
   return newTodoDiv;
 }

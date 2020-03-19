@@ -122,6 +122,8 @@ body {
   cursor: pointer;
   margin-bottom: 0.5rem;
   animation: fade-in 1s 1 ease-out;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .todo:hover {
@@ -154,6 +156,7 @@ body {
   font-size: 0.8rem;
   color: rgb(94, 93, 93);
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal {
